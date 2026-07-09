@@ -1,4 +1,29 @@
-Cambios al 20/05/2026
+# QSL PRO HD - Digital QSL Card Generator
+# Programado por LW3DFA Fernando Albornoz
+# para el grupo GADTM "Los Tres Mosqueteros"
+# Copyright 2025 # 
+
+Generate and send professional digital QSL cards automatically from ADIF files or manual entry, with integrated QRZ lookup and Gmail API integration.
+
+**QSL PRO HD** is a web-based application designed for amateur radio operators to create, customize, and automatically email QSL (quality-of-signal) confirmation cards. The tool streamlines the process of confirming radio contacts by processing ADIF (Amateur Data Interchange Format) files, looking up operator information from QRZ.COM, and sending personalized emails via Gmail.
+
+## Features
+
+- 📋 **ADIF Processing** - Import QSO (contact) logs from multiple formats
+- 📧 **Automated Email Delivery** - Send personalized QSL cards via Gmail API
+- ✏️ **Flexible Input Methods** - Load from ADIF or manual entry
+- 🎨 **QSL Card Customization** - Custom backgrounds, HD resolution, PNG overlays
+- 🔐 **Secure Authentication** - Google OAuth for safe Gmail access
+- 💾 **Export Options** - Download generated QSL cards as PNG files
+
+## Stack
+
+- **Language:** HTML5, JavaScript (vanilla)
+- **Runtime:** Netlify Functions (serverless backend)
+- **Backend Services:** Google OAuth, Gmail API, QRZ API
+- **Frontend:** Canvas API for image manipulation, responsive CSS
+
+## Cambios al 20/05/2026
 ✅ Procesamiento ADIF de distintas plataformas, QRZ, ADIF MASTER, EGLogger, Cliente PEANUT, ETC.
 ✅ Acepta fin de lineas <EOR> y <eor>
 ✅ Envío múltiple
