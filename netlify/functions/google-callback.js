@@ -5,7 +5,7 @@ exports.handler = async function(event){
 
     try{
 
-        const code = event.queryStringParameters.code;
+        const code = event.queryStringParameters ? event.queryStringParameters.code : null;
 
         if(!code){
             return {
@@ -48,11 +48,11 @@ exports.handler = async function(event){
         if(!tokenData.access_token){
             return {
                 statusCode: 400,
-                body: "Error obteniendo token de Google"
+                body: "Error obteniendo token de Google: " + JSON.stringify(tokenData)
             };
         }
 
-        // Redireccionar a la app pasando los tokens en la URL
+        // Redirecciona directamente enviando los tokens en la URL
         const redirectUrl = `https://qslpro2.netlify.app/?access_token=${tokenData.access_token}&refresh_token=${tokenData.refresh_token || ''}`;
 
         return {
@@ -66,70 +66,6 @@ exports.handler = async function(event){
         return {
             statusCode: 500,
             body: error.message
-        };
-    }
-};`
-
-<html>
-
-<body style="
-    font-family:Arial;
-    background:#f0f0f0;
-    text-align:center;
-    padding-top:50px;
-">
-
-<script>
-//***************
-//  PEDIR TOKEN
-//***************
-localStorage.setItem(
-    'gmail_access_token',
-    '${tokenData.access_token}'
-);
-localStorage.setItem(
-    'gmail_refresh_token',
-    '${tokenData.refresh_token || ""}'
-);
-
-//***************
-// REDIRECCIONAR
-//***************
-setTimeout(() => {
-
-    window.location.href =
-    'https://qslpro2.netlify.app';
-
-}, 2500);
-
-</script>
-
-<h2>
-✅ Gmail conectado correctamente
-</h2>
-
-<p>
-✅ Token guardado automáticamente
-</p>
-
-<p>
-Redireccionando a QSL PRO...
-</p>
-
-</body>
-
-</html>
-
-`
-        };
-
-    }catch(error){
-
-        return{
-
-            statusCode:500,
-
-            body:error.message
         };
     }
 };
