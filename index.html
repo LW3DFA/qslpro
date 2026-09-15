@@ -509,7 +509,7 @@ function verificarLoginGoogle(){
 
     // 1. Capturar tokens si vienen desde la URL tras redirigir del login
     const urlParams = new URLSearchParams(window.location.search);
-    const tokenUrl = urlParams.get('access_token') || urlParams.get('token');
+    const tokenUrl = urlParams.get('access_token');
     const refreshTokenUrl = urlParams.get('refresh_token');
 
     if (tokenUrl) {
@@ -517,11 +517,11 @@ function verificarLoginGoogle(){
         if (refreshTokenUrl) {
             localStorage.setItem('gmail_refresh_token', refreshTokenUrl);
         }
-        // Limpiar parámetros de la URL para dejarla limpia
+        // Limpiar parámetros de la URL para mantenerla limpia
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // 2. Comprobar si existe un token guardado en localStorage
+    // 2. Comprobar si existe un token en localStorage
     const token = localStorage.getItem('gmail_access_token');
 
     if(token && token !== "undefined" && token !== "null"){

@@ -1,18 +1,16 @@
 // =========================
-//    google-callback.js
+//     google-callback.js
 // =========================
 exports.handler = async function(event){
 
     try{
 
-        const code =
-        event.queryStringParameters.code;
+        const code = event.queryStringParameters.code;
 
         if(!code){
-
-            return{
-                statusCode:400,
-                body:"No se recibió CODE"
+            return {
+                statusCode: 400,
+                body: "No se recibió CODE"
             };
         }
 
@@ -20,62 +18,57 @@ exports.handler = async function(event){
         // DATOS GOOGLE
         // =========================
 
-        const clientId =
-        process.env.GOOGLE_CLIENT_ID;
-
-        const clientSecret =
-        process.env.GOOGLE_CLIENT_SECRET;
-
-        const redirectUri =
-        'https://qslpro2.netlify.app/.netlify/functions/google-callback';
+        const clientId = process.env.GOOGLE_CLIENT_ID;
+        const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+        const redirectUri = 'https://qslpro2.netlify.app/.netlify/functions/google-callback';
 
         // =========================
         // PEDIR TOKEN
         // =========================
 
-        const params =
-        new URLSearchParams();
-
+        const params = new URLSearchParams();
         params.append('code', code);
-
         params.append('client_id', clientId);
-
         params.append('client_secret', clientSecret);
-
         params.append('redirect_uri', redirectUri);
-
         params.append('grant_type', 'authorization_code');
 
-        const tokenResponse =
-        await fetch(
-            'https://oauth2.googleapis.com/token',
-            {
-                method:'POST',
-                headers:{
-                    'Content-Type':
-                    'application/x-www-form-urlencoded'
-                },
-                body:params
-            }
-        );
+        const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: params
+        });
 
-        const tokenData =
-        await tokenResponse.json();
-
-        //console.log(tokenData);
+        const tokenData = await tokenResponse.json();
 
         console.log("TOKEN DATA:", tokenData);
-        
-        return{
 
-            statusCode:200,
+        if(!tokenData.access_token){
+            return {
+                statusCode: 400,
+                body: "Error obteniendo token de Google"
+            };
+        }
 
-            headers:{
-                "Content-Type":
-                "text/html; charset=utf-8"
-            },
+        // Redireccionar a la app pasando los tokens en la URL
+        const redirectUrl = `https://qslpro2.netlify.app/?access_token=${tokenData.access_token}&refresh_token=${tokenData.refresh_token || ''}`;
 
-            body:`
+        return {
+            statusCode: 302,
+            headers: {
+                'Location': redirectUrl
+            }
+        };
+
+    }catch(error){
+        return {
+            statusCode: 500,
+            body: error.message
+        };
+    }
+};`
 
 <html>
 
