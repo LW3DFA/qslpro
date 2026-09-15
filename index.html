@@ -507,9 +507,9 @@ Borrar
 
 function verificarLoginGoogle(){
 
-    // 1. Verificar si regresamos del callback de Google con datos en la URL
+    // 1. Capturar tokens si vienen desde la URL tras redirigir del login
     const urlParams = new URLSearchParams(window.location.search);
-    const tokenUrl = urlParams.get('access_token');
+    const tokenUrl = urlParams.get('access_token') || urlParams.get('token');
     const refreshTokenUrl = urlParams.get('refresh_token');
 
     if (tokenUrl) {
@@ -517,26 +517,27 @@ function verificarLoginGoogle(){
         if (refreshTokenUrl) {
             localStorage.setItem('gmail_refresh_token', refreshTokenUrl);
         }
-        // Limpiar la URL para que no quede expuesto el token
+        // Limpiar parámetros de la URL para dejarla limpia
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // 2. Comprobar si existe un token en localStorage
+    // 2. Comprobar si existe un token guardado en localStorage
     const token = localStorage.getItem('gmail_access_token');
 
-    if(token){
+    if(token && token !== "undefined" && token !== "null"){
+
         document.getElementById('estadoLogin').innerHTML = '✅ Gmail conectado correctamente';
         document.getElementById('estadoLogin').style.background = '#28a745';
+
         return true;
     }
 
-    // 3. Estado por defecto: no autorizado
+    // 3. Si no hay token guardado
     document.getElementById('estadoLogin').innerHTML = '🔒 Debe conectarse con Gmail para utilizar el sistema';
     document.getElementById('estadoLogin').style.background = '#dc3545';
 
     return false;
 }
-
 // =====================================
 //            ACCESO PERMITIDO 
 // =====================================
