@@ -476,7 +476,6 @@ Borrar
     <img
     src="donar_mercadopago.png"
     alt="Donar con Mercado Pago"
-    
     >
 </a>
 
@@ -538,22 +537,17 @@ function verificarLoginGoogle(){
 
     return false;
 }
+
 // =====================================
 //            ACCESO PERMITIDO 
 // =====================================
 function accesoPermitido(){
 
-    const token =
-    localStorage.getItem(
-        'gmail_access_token'
-    );
+    const token = localStorage.getItem('gmail_access_token');
 
-    if(!token){
+    if(!token || token === "undefined" || token === "null"){
 
-        alert(
-            '⚠ Debe conectarse con Gmail antes de utilizar QSL PRO HD'
-        );
-
+        alert('⚠ Debe conectarse con Gmail antes de utilizar QSL PRO HD');
         return false;
     }
 
@@ -568,30 +562,17 @@ async function loginGoogle(){
 
     try{
 
-        const response =
-        await fetch(
-            '/.netlify/functions/google-auth'
-        );
-
-        const data =
-        await response.json();
+        const response = await fetch('/.netlify/functions/google-auth');
+        const data = await response.json();
 
         if(data.url){
-
-            window.location.href =
-            data.url;
+            window.location.href = data.url;
         }
 
     }catch(error){
 
-        console.log(
-            "Error Google Login:",
-            error
-        );
-
-        alert(
-            "Error iniciando Google"
-        );
+        console.log("Error Google Login:", error);
+        alert("Error iniciando Google");
     }
 }
 
@@ -601,7 +582,6 @@ async function loginGoogle(){
 // =====================================
 
 const canvas = document.getElementById('qslcanvas');
-
 const ctx = canvas.getContext('2d');
 
 ctx.imageSmoothingEnabled = true;
@@ -625,21 +605,14 @@ let baseImage = new Image();
 // =====================================
 
 let membrete = new Image();
-
 let membreteCargado = false;
 
 membrete.onload = function (){
-
     membreteCargado = true;
-
     console.log("Membrete cargado OK");
-    };
+};
 
-// IMPORTANTE:
-// membrete.png debe estar
-// en la misma carpeta del HTML
-
- membrete.src = "membrete.png";
+membrete.src = "membrete.png";
 
 // =====================================
 //        CARGAR IMAGEN DE FONDO
@@ -647,7 +620,7 @@ membrete.onload = function (){
 
 document.getElementById('imageLoader').addEventListener('change', function(e){
 
-	 if(!accesoPermitido()){
+	if(!accesoPermitido()){
         this.value = '';
         return;
     }
@@ -668,7 +641,6 @@ document.getElementById('imageLoader').addEventListener('change', function(e){
         baseImage.onload = function(){
 
             document.getElementById("placeholderText").style.display = "none";
-
             ctx.clearRect(0,0,canvas.width,canvas.height);
 
             ctx.drawImage(
@@ -680,7 +652,6 @@ document.getElementById('imageLoader').addEventListener('change', function(e){
             );
 
             if(membreteCargado){
-
                 ctx.drawImage(
                     membrete,
                     0,
@@ -709,27 +680,14 @@ document.getElementById('imageLoader').addEventListener('change', function(e){
 
 function generar(){
 
-if(!accesoPermitido()) return;
-
-    // VERIFICAR IMAGEN
+    if(!accesoPermitido()) return;
 
     if(!baseImage.src){
-
         alert("Primero cargá una imagen");
-
         return;
     }
 
-    // LIMPIAR
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    // FONDO
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
     ctx.drawImage(
         baseImage,
@@ -739,10 +697,7 @@ if(!accesoPermitido()) return;
         canvas.height
     );
 
-    // MEMBRETE
-
     if(membreteCargado){
-
         ctx.drawImage(
             membrete,
             0,
@@ -752,82 +707,26 @@ if(!accesoPermitido()) return;
         );
     }
 
-    // =====================================
-    //        CONFIGURACIÓN TEXTO
-    // =====================================
-
     ctx.fillStyle = '#0E5C9A';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.font = 'bold 24px Arial';
 
-    // =====================================
-    //           POSICIONES TEXTO
-    // =====================================
+    ctx.fillText(document.getElementById('STATION_CALLSIGN').value || '', 1227, 938);
+    ctx.fillText(document.getElementById('COMMENT').value || '', 1640, 938);
+    ctx.fillText(document.getElementById('qso').value || '', 1207, 1043);
 
-    // MI SD
+    ctx.fillText(document.getElementById('day').value || '', 1296, 1043);
+    ctx.fillText(document.getElementById('month').value || '', 1325, 1043);
+    ctx.fillText(document.getElementById('year').value || '', 1364, 1043);
 
-    ctx.fillText(
-        document.getElementById('STATION_CALLSIGN').value || '', 1227, 938
-    );
-	
-	// REFERENCIA
-
-    ctx.fillText(
-        document.getElementById('COMMENT').value || '', 1640, 938
-    );
-	
-	// CALL
-
-    ctx.fillText(
-        document.getElementById('qso').value || '', 1207, 1043
-    );
-
-    // FECHA
-
-    ctx.fillText(
-        document.getElementById('day').value || '', 1296, 1043
-    );
-
-    ctx.fillText(
-        document.getElementById('month').value || '', 1325, 1043
-    );
-
-    ctx.fillText(
-        document.getElementById('year').value || '', 1364, 1043
-    );
-
-    // UTC
-
-    ctx.fillText(
-        document.getElementById('utc').value || '', 1444, 1043
-    );
-
-    // MHz
-
-    ctx.fillText(
-        document.getElementById('mhz').value || '', 1548, 1043
-    );
-
-    // MODO
-
-    ctx.fillText(
-        document.getElementById('modo').value || '', 1659, 1043
-    );
-
-    // RST
-
-    ctx.fillText(
-        document.getElementById('rst').value || '', 1765, 1043
-    );
-
-    // QSL
+    ctx.fillText(document.getElementById('utc').value || '', 1444, 1043);
+    ctx.fillText(document.getElementById('mhz').value || '', 1548, 1043);
+    ctx.fillText(document.getElementById('modo').value || '', 1659, 1043);
+    ctx.fillText(document.getElementById('rst').value || '', 1765, 1043);
 
     ctx.font = 'bold 24px Arial';
-
-    ctx.fillText(
-        document.getElementById('qsl').value || '', 1850, 1043
-    );
+    ctx.fillText(document.getElementById('qsl').value || '', 1850, 1043);
 }
 
 // =====================================
@@ -835,13 +734,9 @@ if(!accesoPermitido()) return;
 // =====================================
 
 function descargar(){
-
     const link = document.createElement('a');
-
     link.download = 'qsl.png';
-
     link.href = canvas.toDataURL("image/png");
-
     link.click();
 }
 
@@ -850,34 +745,17 @@ function descargar(){
 // =====================================
 
 async function buscarEmailQRZ(callsign){
-
     try{
-
-        const response =
-        await fetch(
-            `/.netlify/functions/qrz?call=${callsign}`
-        );
-
-        const data =
-        await response.json();
-
-        console.log(
-            'QRZ DATA:',
-            data
-        );
-
+        const response = await fetch(`/.netlify/functions/qrz?call=${callsign}`);
+        const data = await response.json();
+        console.log('QRZ DATA:', data);
         return data.email || '';
-
     }catch(error){
-
-        console.log(
-            'Error QRZ:',
-            error
-        );
-
+        console.log('Error QRZ:', error);
         return '';
     }
 }
+
 // =========================
 //      CONTADOR QSL
 // =========================
@@ -885,266 +763,132 @@ async function buscarEmailQRZ(callsign){
 let contadorEnviadas = 0;
 
 function actualizarContadorQSL(finalizado = false){
-
-    const contador =
-    document.getElementById(
-    'contadorQSL'
-    );
+    const contador = document.getElementById('contadorQSL');
 
     if(finalizado){
-
-        contador.style.background =
-        '#43a047';
-
-        contador.innerText =
-        `${contadorEnviadas} QSL enviadas ✔`;
-
+        contador.style.background = '#43a047';
+        contador.innerText = `${contadorEnviadas} QSL enviadas ✔`;
         return;
     }
 
     contadorEnviadas++;
-
-    contador.style.background =
-    '#1e88e5';
-
-    contador.innerText =
-    `${contadorEnviadas} QSL enviadas`;
+    contador.style.background = '#1e88e5';
+    contador.innerText = `${contadorEnviadas} QSL enviadas`;
 }
+
 // =====================================
 //              LEER ADIF
 // =====================================
 
 async function procesarADIF(){
-contadorEnviadas = 0;
+    contadorEnviadas = 0;
 
-if(!accesoPermitido()) return;
+    if(!accesoPermitido()) return;
 
-const contador =
-document.getElementById(
-'contadorQSL'
-);
+    const contador = document.getElementById('contadorQSL');
+    contador.style.background = '#1e88e5';
+    contador.innerText = 'Iniciando envío...';
 
-contador.style.background =
-'#1e88e5';
-
-contador.innerText =
-'Iniciando envío...';
-
-    const fileInput =
-    document.getElementById('adifFile');
+    const fileInput = document.getElementById('adifFile');
 
     if(!fileInput.files.length){
-
         alert("Seleccione un archivo ADIF");
-
         return;
     }
 
     const file = fileInput.files[0];
-
     const texto = await file.text();
-
     const registros = texto.split(/<eor>\s*/i);
 
-for(let i = 0; i < registros.length; i++){
-
-    const r = registros[i];
-
-    if(!r.trim()) continue;
-		
-        // EXTRAER CAMPOS
-
-        const STATION_CALLSIGN =
-		extraerCampo(r,'STATION_CALLSIGN');
-		
-		const call =
-        extraerCampo(r,'CALL');
-		
-		const COMMENT =
-		extraerCampo(r,'COMMENT');
+    for(let i = 0; i < registros.length; i++){
+        const r = registros[i];
+        if(!r.trim()) continue;
+            
+        const STATION_CALLSIGN = extraerCampo(r,'STATION_CALLSIGN');
+        const call = extraerCampo(r,'CALL');
+        const COMMENT = extraerCampo(r,'COMMENT');
   
-		console.log(
-		`Enviando ${i+1}/${registros.length} -> ${call}`
-		);
-	
-		// =========================
-		//    EXTRAE EMAIL QRZ
-		// =========================
+        console.log(`Enviando ${i+1}/${registros.length} -> ${call}`);
 
-		const emailQRZ =
-		await buscarEmailQRZ(call);
-
-		console.log(
-		"CALL:",
-		call,
-		"EMAIL:",
-		emailQRZ
-		);
+        const emailQRZ = await buscarEmailQRZ(call);
+        console.log("CALL:", call, "EMAIL:", emailQRZ);
         
-		const fecha =
-        extraerCampo(r,'QSO_DATE');
+        const fecha = extraerCampo(r,'QSO_DATE');
+        const hora = extraerCampo(r,'TIME_ON');
+        const banda = extraerCampo(r,'FREQ');
+        let modo = extraerCampo(r,'MODE');
 
-        const hora =
-        extraerCampo(r,'TIME_ON');
+        const modoUpper = modo.trim().toUpperCase();
 
-        const banda =
-        extraerCampo(r,'FREQ');
+        if(modoUpper === 'DIGITALVOICE' || modoUpper === 'DVOICE' || modoUpper === 'DV'){
+            modo = 'DVOICE';
+        }
 
-        let modo =
-		extraerCampo(r,'MODE');
-
-		// NORMALIZAR MODOS
-
-		const modoUpper = modo.trim().toUpperCase();
-
-		if(
-		modoUpper === 'DIGITALVOICE' ||
-		modoUpper === 'DVOICE' ||
-		modoUpper === 'DV'
-		){
-		modo = 'DVOICE';
-		}
-
-        const rst =
-        extraerCampo(r,'RST_SENT');
-
-        // FECHA
+        const rst = extraerCampo(r,'RST_SENT');
 
         let year = '';
         let month = '';
         let day = '';
 
         if(fecha.length === 8){
-
             year = fecha.substring(0,4);
-
             month = fecha.substring(4,6);
-
             day = fecha.substring(6,8);
         }
 
-        // HORA
-
         let utc = hora;
-
         if(hora.length >= 4){
-
-            utc =
-            hora.substring(0,2)
-            + ':'
-            + hora.substring(2,4);
+            utc = hora.substring(0,2) + ':' + hora.substring(2,4);
         }
 
-        // RELLENAR FORMULARIO
-        
-		document.getElementById('STATION_CALLSIGN').value = STATION_CALLSIGN;
-		
-		document.getElementById('COMMENT').value = COMMENT;
-		
-		document.getElementById('qso').value = call;
-
+        document.getElementById('STATION_CALLSIGN').value = STATION_CALLSIGN;
+        document.getElementById('COMMENT').value = COMMENT;
+        document.getElementById('qso').value = call;
         document.getElementById('day').value = day;
-
         document.getElementById('month').value = month;
-
         document.getElementById('year').value = year;
-
         document.getElementById('utc').value = utc;
-
         document.getElementById('mhz').value = banda;
-
         document.getElementById('modo').value = modo;
-
         document.getElementById('rst').value = rst;
-
         document.getElementById('qsl').value = 'PSE';
 
-// GENERAR
+        generar();
 
-		generar();
+        if(emailQRZ){
+            try{
+                const token = localStorage.getItem('gmail_access_token');
+                const imagen = canvas.toDataURL("image/png");
 
-// =========================
-//   ENVIAR QSL AUTOMÁTICA
-// =========================
+                const response = await fetch('/.netlify/functions/send-qsl', {
+                    method:'POST',
+                    headers:{ 'Content-Type': 'application/json' },
+                    body:JSON.stringify({
+                        token:token,
+                        to:emailQRZ,
+                        image:imagen
+                    })
+                });
 
-		if(emailQRZ){
+                const resultado = await response.json();
 
-		try{
+                if(resultado.gmailResponse?.includes('"error"')){
+                    console.log('Error Gmail:', resultado.gmailResponse);
+                    continue;
+                }
+                    
+                console.log('QSL enviada:', resultado);
+                actualizarContadorQSL();
 
-        const token =
-        localStorage.getItem(
-            'gmail_access_token'
-        );
-
-        const imagen =
-        canvas.toDataURL("image/png");
-
-        const response =
-        await fetch(
-            '/.netlify/functions/send-qsl',
-            {
-                method:'POST',
-
-                headers:{
-                    'Content-Type':
-                    'application/json'
-                },
-
-                body:JSON.stringify({
-
-                    token:token,
-
-                    to:emailQRZ,
-
-                    image:imagen
-                })
+            }catch(error){
+                console.log('Error enviando:', error);
             }
-        );
+        }else{
+            console.log('QRZ sin email:', call);
+        }
 
-        const resultado =
-        await response.json();
-
-		if(resultado.gmailResponse?.includes('"error"')){
-	    console.log(
-        'Error Gmail:',
-        resultado.gmailResponse
-    	);
-
-    	continue;
-		}
-			
-        console.log(
-            'QSL enviada:',
-            resultado
-        );
-
-        actualizarContadorQSL();
-
-		}catch(error){
-
-        console.log(
-            'Error enviando:',
-            error
-        );
-		}
-		}else{
-
-		console.log(
-        'QRZ sin email:',
-        call
-		);
-		}
-
-// DESCARGA LOCAL (pausada por ahora)
-
-	//	descargarAutomatica(
-	//	call + "_" + fecha
-	//	);
-
-// ESPERA
-
-		await esperar(1000);
-	}
+        await esperar(1000);
+    }
     
     actualizarContadorQSL(true);
     alert("Proceso terminado");
@@ -1154,84 +898,41 @@ for(let i = 0; i < registros.length; i++){
 //       GENERAR LISTAS DÍA/MES/AÑO
 // =====================================
 
-// DÍA
-
-const daySelect =
-document.getElementById('day');
-
+const daySelect = document.getElementById('day');
 for(let i = 1; i <= 31; i++){
-
-    const option =
-    document.createElement('option');
-
-    option.value =
-    String(i).padStart(2,'0');
-
-    option.textContent =
-    String(i).padStart(2,'0');
-
+    const option = document.createElement('option');
+    option.value = String(i).padStart(2,'0');
+    option.textContent = String(i).padStart(2,'0');
     daySelect.appendChild(option);
 }
 
-// MES
-
-const monthSelect =
-document.getElementById('month');
-
+const monthSelect = document.getElementById('month');
 for(let i = 1; i <= 12; i++){
-
-    const option =
-    document.createElement('option');
-
-    option.value =
-    String(i).padStart(2,'0');
-
-    option.textContent =
-    String(i).padStart(2,'0');
-
+    const option = document.createElement('option');
+    option.value = String(i).padStart(2,'0');
+    option.textContent = String(i).padStart(2,'0');
     monthSelect.appendChild(option);
 }
 
-// AÑO
-
-const yearSelect =
-document.getElementById('year');
-
-const currentYear =
-new Date().getFullYear();
-
+const yearSelect = document.getElementById('year');
+const currentYear = new Date().getFullYear();
 for(let i = currentYear; i >= 1980; i--){
-
-    const option =
-    document.createElement('option');
-
+    const option = document.createElement('option');
     option.value = i;
-
     option.textContent = i;
-
     yearSelect.appendChild(option);
 }
-
 
 // =====================================
 //         EXTRAER CAMPOS ADIF
 // =====================================
 
 function extraerCampo(texto,campo){
-
-    const regex =
-    new RegExp(
-        `<${campo}:(\\d+)[^>]*>([^<]+)`,
-        'i'
-    );
-
+    const regex = new RegExp(`<${campo}:(\\d+)[^>]*>([^<]+)`, 'i');
     const match = texto.match(regex);
-
     if(match){
-
         return match[2].trim();
     }
-
     return '';
 }
 
@@ -1240,19 +941,11 @@ function extraerCampo(texto,campo){
 // =====================================
 
 function descargarAutomatica(nombre){
-
-    const link =
-    document.createElement('a');
-
+    const link = document.createElement('a');
     link.download = nombre + '.png';
-
-    link.href =
-    canvas.toDataURL("image/png");
-
+    link.href = canvas.toDataURL("image/png");
     document.body.appendChild(link);
-
     link.click();
-
     document.body.removeChild(link);
 }
 
@@ -1261,136 +954,63 @@ function descargarAutomatica(nombre){
 // =====================================
 
 async function enviarQSLPrueba(){
-
     try{
-
-        // TOKEN GMAIL
-
-        const token =
-        localStorage.getItem(
-            'gmail_access_token'
-        );
+        const token = localStorage.getItem('gmail_access_token');
 
         if(!token){
-
-            alert(
-                'Primero conectá Gmail'
-            );
-
+            alert('Primero conectá Gmail');
             return;
         }
 
-        // CALLSIGN DESDE FORMULARIO
-
-        const callsign =
-        document.getElementById('qso').value.trim();
+        const callsign = document.getElementById('qso').value.trim();
 
         if(!callsign){
-
-            alert(
-                'Ingrese un Callsign'
-            );
-
+            alert('Ingrese un Callsign');
             return;
         }
 
-        // BUSCAR EMAIL EN QRZ
-
-        const emailQRZ =
-        await buscarEmailQRZ(callsign);
+        const emailQRZ = await buscarEmailQRZ(callsign);
 
         if(!emailQRZ){
-
-            alert(
-                'QRZ no posee email para ' + callsign
-            );
-
+            alert('QRZ no posee email para ' + callsign);
             return;
         }
 
-        console.log(
-            'EMAIL QRZ:',
-            emailQRZ
-        );
+        console.log('EMAIL QRZ:', emailQRZ);
 
-        // IMAGEN QSL
+        const imagen = canvas.toDataURL("image/png");
 
-        const imagen =
-        canvas.toDataURL("image/png");
+        const response = await fetch('/.netlify/functions/send-qsl', {
+            method:'POST',
+            headers:{ 'Content-Type': 'application/json' },
+            body:JSON.stringify({
+                token:token,
+                to:emailQRZ,
+                image:imagen
+            })
+        });
 
-        // ENVIAR
+        const data = await response.json();
 
-        const response =
-        await fetch(
-            '/.netlify/functions/send-qsl',
-            {
-                method:'POST',
+        if(data.gmailResponse?.includes('"UNAUTHENTICATED"')){
+            console.log('Token vencido, renovando...');
+            const nuevoToken = await renovarToken();
 
-                headers:{
-                    'Content-Type':
-                    'application/json'
-                },
-
-                body:JSON.stringify({
-
-                    token:token,
-
-                    to:emailQRZ,
-
-                    image:imagen
-                })
+            if(!nuevoToken){
+                alert('Debe volver a conectar Gmail');
+                return;
             }
-        );
-
-        const data =
-		await response.json();
-
-		if(
-		data.gmailResponse?.includes(
-		'"UNAUTHENTICATED"'
-		)
-		){
-
-    	console.log(
-    	'Token vencido, renovando...'
-    	);
-
-    	const nuevoToken =
-    	await renovarToken();
-
-    	if(nuevoToken){
-
-        console.log(
-        'Token renovado'
-        );
-
-    	}else{
-
-        alert(
-        'Debe volver a conectar Gmail'
-        );
-    	}
-		}
+        }
 		
-		console.log(
-    	'QSL enviada:',
-    	data
-		);
+        console.log('QSL enviada:', data);
+        actualizarContadorQSL();
+        actualizarContadorQSL(true);
 
-		actualizarContadorQSL();
-		actualizarContadorQSL(true);
-
-		alert(
-    	'QSL enviada a: ' + emailQRZ
-		);
+        alert('QSL enviada a: ' + emailQRZ);
 
     }catch(error){
-
         console.log(error);
-
-        alert(
-            'Error enviando'
-        );
+        alert('Error enviando');
     }
 }
 
@@ -1399,19 +1019,17 @@ async function enviarQSLPrueba(){
 // =====================================
 
 function esperar(ms){
-
-    return new Promise(
-        resolve => setTimeout(resolve, ms)
-    );
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 // ===========================
 //     Botón BORRAR Manual
 // ===========================
-function borrarCampos(){
 
+function borrarCampos(){
     document.getElementById('STATION_CALLSIGN').value = '';
-	document.getElementById('COMMENT').value = '';
-	document.getElementById('qso').value = '';
+    document.getElementById('COMMENT').value = '';
+    document.getElementById('qso').value = '';
     document.getElementById('day').value = '';
     document.getElementById('month').value = '';
     document.getElementById('year').value = '';
@@ -1420,7 +1038,6 @@ function borrarCampos(){
     document.getElementById('modo').value = '';
     document.getElementById('rst').value = '';
     document.getElementById('qsl').value = '';
-
 }
 
 // ===========================
@@ -1428,55 +1045,36 @@ function borrarCampos(){
 // ===========================
 
 async function renovarToken(){
-
-    const refreshToken =
-    localStorage.getItem(
-        'gmail_refresh_token'
-    );
+    const refreshToken = localStorage.getItem('gmail_refresh_token');
 
     if(!refreshToken){
-
-        alert(
-            'Debe volver a conectar Gmail'
-        );
-
+        alert('Debe volver a conectar Gmail');
         return null;
     }
 
-    const response =
-    await fetch(
-        '/.netlify/functions/refresh-token',
-        {
-            method:'POST',
+    const response = await fetch('/.netlify/functions/refresh-token', {
+        method:'POST',
+        headers:{ 'Content-Type': 'application/json' },
+        body:JSON.stringify({ refresh_token: refreshToken })
+    });
 
-            headers:{
-                'Content-Type':
-                'application/json'
-            },
-
-            body:JSON.stringify({
-
-                refresh_token:
-                refreshToken
-            })
-        }
-    );
-
-    const data =
-    await response.json();
+    const data = await response.json();
 
     if(data.access_token){
-
-        localStorage.setItem(
-            'gmail_access_token',
-            data.access_token
-        );
-
+        localStorage.setItem('gmail_access_token', data.access_token);
+        verificarLoginGoogle();
         return data.access_token;
     }
 
     return null;
 }
+
+// =====================================
+//  EJECUTAR VERIFICACIÓN AL CARGAR
+// =====================================
+
+window.onload = verificarLoginGoogle;
+
 </script>
 
 </body>
