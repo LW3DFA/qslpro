@@ -753,13 +753,10 @@ if(!accesoPermitido()) return;
     //        CONFIGURACIÓN TEXTO
     // =====================================
 
-    ctx.fillStyle = '#005975';
-
+    ctx.fillStyle = '#0E5C9A';
     ctx.textAlign = 'center';
-
     ctx.textBaseline = 'middle';
-
-    ctx.font = 'bold 40px Arial';
+    ctx.font = 'bold 24px Arial';
 
     // =====================================
     //           POSICIONES TEXTO
@@ -768,65 +765,65 @@ if(!accesoPermitido()) return;
     // MI SD
 
     ctx.fillText(
-        document.getElementById('STATION_CALLSIGN').value || '', 380, 916
+        document.getElementById('STATION_CALLSIGN').value || '', 1227, 938
     );
 	
 	// REFERENCIA
 
     ctx.fillText(
-        document.getElementById('COMMENT').value || '', 1065, 916
+        document.getElementById('COMMENT').value || '', 1464, 938
     );
 	
 	// CALL
 
     ctx.fillText(
-        document.getElementById('qso').value || '', 380, 1020
+        document.getElementById('qso').value || '', 1207, 1043
     );
 
     // FECHA
 
     ctx.fillText(
-        document.getElementById('day').value || '', 560, 1020
+        document.getElementById('day').value || '', 1298, 1043
     );
 
     ctx.fillText(
-        document.getElementById('month').value || '', 688, 1020
+        document.getElementById('month').value || '', 1327, 1043
     );
 
     ctx.fillText(
-        document.getElementById('year').value || '', 830, 1020
+        document.getElementById('year').value || '', 1364, 1043
     );
 
     // UTC
 
     ctx.fillText(
-        document.getElementById('utc').value || '', 996, 1020
+        document.getElementById('utc').value || '', 1444, 1043
     );
 
     // MHz
 
     ctx.fillText(
-        document.getElementById('mhz').value || '', 1156, 1020
+        document.getElementById('mhz').value || '', 1548, 1043
     );
 
     // MODO
 
     ctx.fillText(
-        document.getElementById('modo').value || '', 1362, 1020
+        document.getElementById('modo').value || '', 1659, 1043
     );
 
     // RST
 
     ctx.fillText(
-        document.getElementById('rst').value || '', 1530, 1020
+        document.getElementById('rst').value || '', 1765, 1043
     );
 
     // QSL
 
-    ctx.font = 'bold 36px Arial';
+    ctx.font = 'bold 24px Arial';
 
     ctx.fillText(
-        document.getElementById('qsl').value || '', 1618, 1020
+        document.getElementById('qsl').value || '', 1850, 1043
     );
 }
 
