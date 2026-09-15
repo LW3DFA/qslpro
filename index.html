@@ -505,35 +505,37 @@ Borrar
 //         VERIFICA LOGIN GMAIL 
 // =====================================
 
-
 function verificarLoginGoogle(){
 
-    const token =
-    localStorage.getItem(
-        'gmail_access_token'
-    );
+    // 1. Verificar si regresamos del callback de Google con datos en la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenUrl = urlParams.get('access_token');
+    const refreshTokenUrl = urlParams.get('refresh_token');
+
+    if (tokenUrl) {
+        localStorage.setItem('gmail_access_token', tokenUrl);
+        if (refreshTokenUrl) {
+            localStorage.setItem('gmail_refresh_token', refreshTokenUrl);
+        }
+        // Limpiar la URL para que no quede expuesto el token
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // 2. Comprobar si existe un token en localStorage
+    const token = localStorage.getItem('gmail_access_token');
 
     if(token){
-
-        document.getElementById('estadoLogin').innerHTML =
-        '✅ Gmail conectado correctamente';
-
-        document.getElementById('estadoLogin').style.background =
-        '#28a745';
-
+        document.getElementById('estadoLogin').innerHTML = '✅ Gmail conectado correctamente';
+        document.getElementById('estadoLogin').style.background = '#28a745';
         return true;
     }
 
-    document.getElementById('estadoLogin').innerHTML =
-    '🔒 Debe conectarse con Gmail para utilizar el sistema';
-
-    document.getElementById('estadoLogin').style.background =
-    '#dc3545';
+    // 3. Estado por defecto: no autorizado
+    document.getElementById('estadoLogin').innerHTML = '🔒 Debe conectarse con Gmail para utilizar el sistema';
+    document.getElementById('estadoLogin').style.background = '#dc3545';
 
     return false;
 }
-
-window.onload = verificarLoginGoogle;
 
 // =====================================
 //            ACCESO PERMITIDO 
